@@ -1,4 +1,4 @@
-package shop.mybookstore.book.entities;
+package shop.mybookstore.book;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,9 +16,6 @@ public class Book {
     private double price;
     private int stock;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getId() {
         return id;
