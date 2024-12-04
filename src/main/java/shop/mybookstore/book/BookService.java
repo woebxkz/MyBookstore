@@ -7,12 +7,28 @@ import java.util.*;
 @Service
 public class BookService {
 
-    List<Book> getAllBooks() {
-        return null;
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
-    List<Book> searchBooks(String title, Long categoryId, String author) {
-        return null;
+    public List<Book> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
+
+        if (books.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            books.forEach(System.out::println);
+            return books;
+        }
+    }
+
+    public List<Book> searchBooksByTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return bookRepository.findBooksByTitleContainingIgnoreCase(title.trim());
     }
 
     Book getBookDetails (Long bookId) {
