@@ -9,14 +9,14 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
+    @Column(name = "bookId")
     private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "authorId", nullable = false)
     private Author author;
 
     @Column(name = "price", nullable = false)
@@ -26,10 +26,10 @@ public class Book {
     private Integer stock;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
-    @Column(name = "published_date", nullable = false)
+    @Column(name = "publishedDate", nullable = false)
     private LocalDate publishedDate;
 
 
