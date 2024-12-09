@@ -31,6 +31,10 @@ public class Book {
     @Column(name = "published_date", nullable = false)
     private LocalDate publishedDate;
 
+    @ManyToOne
+    @JoinColumn(name = "publisher", nullable = false)
+    private Publisher publisher;
+
 
     public Long getId() {
         return id;

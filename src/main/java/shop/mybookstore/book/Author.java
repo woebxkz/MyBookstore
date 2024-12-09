@@ -11,7 +11,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authorId;
 
-    @Column(name = "authorName", nullable = false)
+    @Column(name = "author", nullable = false)
     private String authorName;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
