@@ -9,31 +9,38 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
     private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "author", nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     @Column(name = "price", nullable = false)
     private double price;
 
+    @Column(name = "stock")
     private Integer stock;
 
-    @ManyToOne
-    @JoinColumn(name = "category", nullable = false)
-    private Category category;
+    @Column(name = "category", nullable = false)
+    private String category;
 
     @Column(name = "published_date", nullable = false)
     private LocalDate publishedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "publisher", nullable = false)
-    private Publisher publisher;
+
+    @Column(name = "publisher", nullable = false)
+    private String publisher;
+
+    public Book(){}
+
+    public Book(String title, Author author, Double price){
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
 
 
     public Long getId() {
@@ -76,11 +83,11 @@ public class Book {
         this.stock = stock;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

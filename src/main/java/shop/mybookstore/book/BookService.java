@@ -8,7 +8,8 @@ import java.util.*;
 @Service
 public class BookService {
 
-    private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository) {
@@ -26,7 +27,7 @@ public class BookService {
         }
     }
 
-    public List<Book> searchBooksByTitle(String title) {
+/*    public List<Book> searchBooksByTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();
         }
@@ -38,14 +39,14 @@ public class BookService {
             return Collections.emptyList();
         }
         return bookRepository.findBooksByAuthorContainsIgnoreCase(author.trim());
-    }
+    }*/
 
     public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
-    Book getBookDetails (BookController bookId) {
+    /*Book getBookDetails (BookController bookId) {
         return null;
-    }
+    }*/
 
 }

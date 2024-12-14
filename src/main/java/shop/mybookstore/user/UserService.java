@@ -2,6 +2,6 @@ package shop.mybookstore.user;
 
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class UserService {
 }

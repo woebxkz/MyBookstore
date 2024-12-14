@@ -2,10 +2,10 @@ package shop.mybookstore.user;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "users")
+//@Entity
+//@Table(name = "users")
 public class User {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
@@ -19,5 +19,5 @@ public class User {
     private String email;
 
     @Column(name = "role", nullable = false)
-    private String role;
+    private String role;*/
 }

@@ -4,23 +4,56 @@ import jakarta.persistence.*;
 import shop.mybookstore.book.Book;
 import shop.mybookstore.user.User;
 
-@Entity
-@Table(name = "cart")
-public class Cart {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cartId;
+//@Entity
+//@Table(name = "cart")
+public class Cart {}
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Column(name = "user_id")
-    private User userId;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long cartId;
 
-    @OneToMany(mappedBy = "books", cascade = CascadeType.ALL)
-    @Column(name = "book_id")
-    private Book bookId;
+ /*   @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;*/
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    /*@ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;*/
 
-}
+/*    @Column(name = "quantity")
+    private int quantity;
+
+    public Long getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
+    }*/
+
+/*    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }*/
+
+/*    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+}*/
