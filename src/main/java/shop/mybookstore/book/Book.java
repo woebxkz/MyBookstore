@@ -1,5 +1,6 @@
 package shop.mybookstore.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -14,8 +15,9 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    @JsonIgnore
     private Author author;
 
     @Column(name = "price", nullable = false)
@@ -41,7 +43,6 @@ public class Book {
         this.author = author;
         this.price = price;
     }
-
 
     public Long getId() {
         return id;
@@ -97,5 +98,13 @@ public class Book {
 
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 }

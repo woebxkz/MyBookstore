@@ -8,8 +8,7 @@ import java.util.*;
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository) {
@@ -18,13 +17,7 @@ public class BookService {
 
     public List<Book> getAllBooks() {
         List<Book> books = bookRepository.findAll();
-
-        if (books.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            books.forEach(System.out::println);
-            return books;
-        }
+        return books;
     }
 
 /*    public List<Book> searchBooksByTitle(String title) {
