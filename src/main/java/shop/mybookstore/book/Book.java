@@ -15,10 +15,9 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @Column(name = "author", nullable = false)
     @JsonIgnore
-    private Author author;
+    private String author;
 
     @Column(name = "price", nullable = false)
     private double price;
@@ -38,7 +37,7 @@ public class Book {
 
     public Book(){}
 
-    public Book(String title, Author author, Double price){
+    public Book(String title, String author, Double price){
         this.title = title;
         this.author = author;
         this.price = price;
@@ -58,14 +57,6 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
     }
 
     public double getPrice() {

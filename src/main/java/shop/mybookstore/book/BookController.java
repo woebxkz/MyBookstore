@@ -26,6 +26,7 @@ public class BookController {
         return books;
     }
 
+
     @GetMapping("/{id}")
     public Optional<Book> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookService.getBookById(id);

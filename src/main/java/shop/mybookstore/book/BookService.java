@@ -10,14 +10,12 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    @Autowired
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     public List<Book> getAllBooks() {
-        List<Book> books = bookRepository.findAll();
-        return books;
+        return bookRepository.findAll();
     }
 
 /*    public List<Book> searchBooksByTitle(String title) {
