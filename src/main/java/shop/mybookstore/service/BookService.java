@@ -1,7 +1,8 @@
-package shop.mybookstore.book;
+package shop.mybookstore.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shop.mybookstore.entity.Book;
+import shop.mybookstore.repository.BookRepository;
 
 import java.util.*;
 

@@ -1,6 +1,4 @@
-package shop.mybookstore.user;
-
-import jakarta.persistence.*;
+package shop.mybookstore.entity;
 
 //@Entity
 //@Table(name = "users")

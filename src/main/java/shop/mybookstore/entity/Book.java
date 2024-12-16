@@ -1,4 +1,4 @@
-package shop.mybookstore.book;
+package shop.mybookstore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

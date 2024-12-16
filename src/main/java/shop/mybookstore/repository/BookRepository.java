@@ -1,11 +1,8 @@
-package shop.mybookstore.book;
+package shop.mybookstore.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
+import shop.mybookstore.entity.Book;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book,Long> {
