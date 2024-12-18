@@ -1,6 +1,7 @@
 package shop.mybookstore.service;
 
 import org.springframework.stereotype.Service;
+import shop.mybookstore.controller.BookController;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.repository.BookRepository;
 
@@ -19,7 +20,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-/*    public List<Book> searchBooksByTitle(String title) {
+   public List<Book> searchBooksByTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();
         }
@@ -30,15 +31,15 @@ public class BookService {
         if (author == null || author.trim().isEmpty()) {
             return Collections.emptyList();
         }
-        return bookRepository.findBooksByAuthorContainsIgnoreCase(author.trim());
-    }*/
+        return bookRepository.getAuthorIgnoreCase(author);
+    }
 
     public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
-    /*Book getBookDetails (BookController bookId) {
+    Book getBookDetails (BookController bookId) {
         return null;
-    }*/
+    }
 
 }
