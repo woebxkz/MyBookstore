@@ -12,7 +12,7 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book,Long> {
 
     @Query(value = "SELECT * FROM book WHERE LOWER(author) = LOWER(?1)", nativeQuery = true)
-    List<Book> getAuthorIgnoreCase(String author);
+    List<Book> findBooksByAuthorIgnoreCase(String author);
 
     @Query(value = "SELECT * FROM book WHERE LOWER(title) LIKE LOWER(CONCAT('%', ?1, '%'))", nativeQuery = true)
     List<Book> findBooksByTitleContainingIgnoreCase(String title);
