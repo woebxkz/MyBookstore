@@ -98,4 +98,12 @@ public class Book {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

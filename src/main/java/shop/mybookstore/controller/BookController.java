@@ -1,12 +1,13 @@
 package shop.mybookstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import shop.mybookstore.model.BookModel;
+import shop.mybookstore.model.response.BookResponse;
 import shop.mybookstore.service.BookService;
 import shop.mybookstore.entity.Book;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,12 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id){
         bookService.deleteBook(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<BookResponse> createBook(@RequestBody BookModel bookModel) {
+        BookResponse createdBook = bookService.createBook(bookModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
 

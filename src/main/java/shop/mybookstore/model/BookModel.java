@@ -11,17 +11,11 @@ import java.time.LocalDate;
 public class BookModel {
 
     private String title;
-
     private String author;
-
     private double price;
-
     private Integer stock;
-
     private String category;
-
     private LocalDate publishedDate;
-
     private String publisher;
 
 }
