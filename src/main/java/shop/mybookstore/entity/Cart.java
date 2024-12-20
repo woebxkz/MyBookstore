@@ -1,21 +1,24 @@
 package shop.mybookstore.entity;
 
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "cart")
 public class Cart {
 
-/*    @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user;*/
 
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(name = "quantity")
-    private int quantity;*/
+    @Column(nullable = false)
+    private int quantity;
 
 }

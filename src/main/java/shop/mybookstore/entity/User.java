@@ -1,21 +1,23 @@
 package shop.mybookstore.entity;
 
-//@Entity
-//@Table(name = "users")
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*@Entity
+@Table(name = "users")*/
 public class User {
-    /*@Id
+
+/*    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "user_name", nullable = false)
     private String username;
-
-    @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "role", nullable = false)
-    private String role;*/
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;*/
+
 }

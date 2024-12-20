@@ -8,7 +8,7 @@ import shop.mybookstore.model.BookModel;
 import shop.mybookstore.model.response.BookResponse;
 import shop.mybookstore.service.BookService;
 import shop.mybookstore.entity.Book;
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -23,8 +23,8 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public String getAllBooks() {
+        return bookService.getAllBooks().toString();
     }
 
     @GetMapping("/{id}")
@@ -42,6 +42,4 @@ public class BookController {
         BookResponse createdBook = bookService.createBook(bookModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
-
-
 }

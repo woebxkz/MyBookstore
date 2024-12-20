@@ -12,36 +12,61 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(name = "author", nullable = false)
-    @JsonIgnore
+    @Column(nullable = false)
     private String author;
 
-    @Column(name = "price", nullable = false)
+    @Column(nullable = false)
     private double price;
 
-    @Column(name = "stock")
+    @Column(nullable = false)
     private Integer stock;
 
-    @Column(name = "category", nullable = false)
+    @Column(nullable = false)
     private String category;
 
     @Column(name = "published_date", nullable = false)
     private LocalDate publishedDate;
 
 
-    @Column(name = "publisher", nullable = false)
+    @Column(nullable = false)
     private String publisher;
 
     public Book(){}
 
-    public Book(String title, String author, Double price){
+    public Book(Long id,
+                String title,
+                String author,
+                double price,
+                Integer stock,
+                String category,
+                LocalDate publishedDate,
+                String publisher) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
     }
+
+    @Override
+    public String toString() {
+        String newLine = System.lineSeparator();
+        return "Book " + this.id + ":" + newLine +
+                "  Title: " + this.title + newLine +
+                "  Author: " + this.author + newLine +
+                "  Price: " + this.price + newLine +
+                "  Stock: " + this.stock + newLine +
+                "  Category: " + this.category + newLine +
+                "  Published Date: " + this.publishedDate + newLine +
+                "  Publisher: " + this.publisher;
+    }
+
 
     public Long getId() {
         return id;
