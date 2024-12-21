@@ -2,7 +2,10 @@ package shop.mybookstore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -10,6 +13,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private Long id;
 
     @Column(nullable = false)
@@ -19,7 +23,7 @@ public class Book {
     private String author;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private Integer stock;
@@ -39,7 +43,7 @@ public class Book {
     public Book(Long id,
                 String title,
                 String author,
-                double price,
+                BigDecimal price,
                 Integer stock,
                 String category,
                 LocalDate publishedDate,
@@ -84,11 +88,11 @@ public class Book {
         this.title = title;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

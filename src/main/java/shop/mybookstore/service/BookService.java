@@ -14,14 +14,14 @@ import java.util.*;
 @Service
 public class BookService {
 
-    private final BookRepository bookRepository;
+    BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public String getAllBooks() {
+        return bookRepository.findAll().toString();
     }
 
     public Optional<Book> getBookById(Long id) {

@@ -2,12 +2,17 @@ package shop.mybookstore.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "cart")
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long cartId;
 
     /*@ManyToOne
@@ -15,10 +20,17 @@ public class Cart {
     private User user;*/
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+    private List<CartItem> books = new ArrayList<>();
 
-    @Column(nullable = false)
-    private int quantity;
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount = BigDecimal.ZERO;
+
+
+    private void updateTotalAmount() {
+        this.totalAmount = books.stream().map(book -> {
+            BigDecimal unitPrice = book.getUnitPrice();
+            return unitPrice.multiply(BigDecimal.valueOf(book.getQuantity()))
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
 }

@@ -9,6 +9,7 @@ import shop.mybookstore.model.response.BookResponse;
 import shop.mybookstore.service.BookService;
 import shop.mybookstore.entity.Book;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,7 +25,7 @@ public class BookController {
 
     @GetMapping
     public String getAllBooks() {
-        return bookService.getAllBooks().toString();
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
