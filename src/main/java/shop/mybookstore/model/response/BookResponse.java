@@ -2,7 +2,7 @@ package shop.mybookstore.model.response;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -12,7 +12,7 @@ public class BookResponse {
     private Long id;
     private String title;
     private String category;
-    private double price;
+    private BigDecimal price;
     private Integer stock;
     private LocalDate publishedDate;
     private String publisher;
@@ -20,7 +20,7 @@ public class BookResponse {
     public BookResponse(Long id,
                         String title,
                         String category,
-                        double price,
+                        BigDecimal price,
                         Integer stock,
                         LocalDate publishedDate,
                         String publisher) {

@@ -20,8 +20,8 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public String getAllBooks() {
-        return bookRepository.findAll().toString();
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     public Optional<Book> getBookById(Long id) {

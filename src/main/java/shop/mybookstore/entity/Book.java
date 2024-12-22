@@ -26,6 +26,7 @@ public class Book {
     private BigDecimal price;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Integer stock;
 
     @Column(nullable = false)
@@ -57,20 +58,6 @@ public class Book {
         this.publishedDate = publishedDate;
         this.publisher = publisher;
     }
-
-    @Override
-    public String toString() {
-        String newLine = System.lineSeparator();
-        return "Book " + this.id + ":" + newLine +
-                "  Title: " + this.title + newLine +
-                "  Author: " + this.author + newLine +
-                "  Price: " + this.price + newLine +
-                "  Stock: " + this.stock + newLine +
-                "  Category: " + this.category + newLine +
-                "  Published Date: " + this.publishedDate + newLine +
-                "  Publisher: " + this.publisher;
-    }
-
 
     public Long getId() {
         return id;
