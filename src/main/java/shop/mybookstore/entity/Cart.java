@@ -33,7 +33,7 @@ public class Cart {
         }).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void addBook(CartItem book) {
+    public void addToCart(CartItem book) {
         this.books.add(book);
         book.setCart(this);
         updateTotalAmount();

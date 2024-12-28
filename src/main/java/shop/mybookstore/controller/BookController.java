@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/books")
 public class BookController {
 
     BookService bookService;
@@ -26,17 +26,33 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public Optional<Book> getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/search/{author}")
+    public List<Book> getBooksByAuthor(@PathVariable String author) {
+        return bookService.getBooksByAuthor(author);
+    }
+
+    @GetMapping("/search/{title}")
+    public List<Book> getBooksByTitle(@PathVariable String title) {
+        return bookService.getBooksByTitle(title);
+    }
+
+    @GetMapping("/search/{author}&{title}")
+    public List<Book> getBooksByAuthorAndTitle(@PathVariable String author, String title) {
+        return bookService.getBooksByAuthorAndTitle(author, title);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable Long id) {
         try {
             bookService.deleteBook(id);

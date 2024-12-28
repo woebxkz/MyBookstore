@@ -3,7 +3,6 @@ package shop.mybookstore.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import shop.mybookstore.controller.BookController;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.model.BookModel;
 import shop.mybookstore.model.response.BookResponse;
@@ -32,15 +31,32 @@ public class BookService {
         if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();
         }
-        return bookRepository.findBooksByTitleContainingIgnoreCase(title);
+        return bookRepository.findByTitle(title);
     }
 
     public List<Book> getBooksByAuthor(String author) {
         if (author == null || author.trim().isEmpty()) {
             return Collections.emptyList();
         }
-        return bookRepository.findBooksByAuthorIgnoreCase(author);
+        return bookRepository.findByAuthor(author);
     }
+
+
+    public List<Book> getBooksByAuthorAndTitle(String author, String title) {
+        if (author == null || author.trim().isEmpty()) {
+            return Collections.emptyList();
+        } else if (title == null || title.trim().isEmpty())  {
+            return Collections.emptyList();
+        } else return bookRepository.findByAuthorAndTitle(author, title);
+    }
+
+    public List<Book> getBooksByCategory(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return bookRepository.findByCategory(category);
+    }
+
 
     //only for Admin - for later
     public void deleteBook(Long id) {

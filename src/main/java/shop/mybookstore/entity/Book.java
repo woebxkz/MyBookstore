@@ -14,6 +14,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
+    @JsonIgnore
     private Long id;
 
     @Column(nullable = false)
@@ -34,7 +35,6 @@ public class Book {
 
     @Column(name = "published_date", nullable = false)
     private LocalDate publishedDate;
-
 
     @Column(nullable = false)
     private String publisher;
