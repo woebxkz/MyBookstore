@@ -51,6 +51,11 @@ public class BookController {
         return bookService.getBooksByAuthorAndTitle(author, title);
     }
 
+    @GetMapping("/search/{category}")
+    public List<Book> getBooksByCategory(@PathVariable String category) {
+        return bookService.getBooksByCategory(category);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable Long id) {

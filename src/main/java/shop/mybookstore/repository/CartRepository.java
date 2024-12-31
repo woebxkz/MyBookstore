@@ -6,4 +6,7 @@ import shop.mybookstore.entity.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
+
+    Cart findByUserId(Long userId);
+
 }

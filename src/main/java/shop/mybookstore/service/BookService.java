@@ -8,7 +8,9 @@ import shop.mybookstore.model.BookModel;
 import shop.mybookstore.model.response.BookResponse;
 import shop.mybookstore.repository.BookRepository;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -27,7 +29,7 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-   public List<Book> getBooksByTitle(String title) {
+    public List<Book> getBooksByTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();
         }
@@ -45,7 +47,7 @@ public class BookService {
     public List<Book> getBooksByAuthorAndTitle(String author, String title) {
         if (author == null || author.trim().isEmpty()) {
             return Collections.emptyList();
-        } else if (title == null || title.trim().isEmpty())  {
+        } else if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();
         } else return bookRepository.findByAuthorAndTitle(author, title);
     }
@@ -88,8 +90,6 @@ public class BookService {
                 savedBook.getPublisher()
         );
     }
-
-
 
 
 }
