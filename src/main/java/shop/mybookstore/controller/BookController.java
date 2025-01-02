@@ -13,7 +13,8 @@ import shop.mybookstore.service.BookService;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/books")
@@ -61,7 +62,7 @@ public class BookController {
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable Long id) {
         try {
             bookService.deleteBook(id);
-            return ResponseEntity.ok(new ApiResponse("Book successfully deleted", id));
+            return ResponseEntity.status(FOUND).body(new ApiResponse("Book successfully deleted", id));
         } catch (RuntimeException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Book not found", id));
         }
@@ -70,6 +71,6 @@ public class BookController {
     @PostMapping("/create")
     public ResponseEntity<BookResponse> createBook(@RequestBody BookModel bookModel) {
         BookResponse createdBook = bookService.createBook(bookModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
+        return status(HttpStatus.CREATED).body(createdBook);
     }
 }

@@ -1,39 +1,47 @@
 package shop.mybookstore.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import shop.mybookstore.entity.Book;
+import org.springframework.web.server.ResponseStatusException;
 import shop.mybookstore.entity.Cart;
-import shop.mybookstore.entity.CartItem;
+import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
+    private final AtomicLong cartIdGenerator = new AtomicLong(0);
 
-    @Autowired
-    public CartService(CartRepository cartRepository) {
-        this.cartRepository = cartRepository;
+    public Cart getCart(Long id) {
+        Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
+        BigDecimal totalAmount = cart.getTotalAmount();
+        cart.setTotalAmount(totalAmount);
+        return cartRepository.save(cart);
     }
 
-    public void getCart(Long id){
-        Cart cart = cartRepository.findById(id).orElseThrow(); //add customized exception
-        //add total amount
-        //add to cart
-        //return cart
+    public BigDecimal getTotalPrice(Long id) {
+        Cart cart = getCart(id);
+        return cart.getTotalAmount();
     }
 
-    public void addToCart(CartItem book) {
-
+    public Long initializenewCart() {
+        Cart cart = new Cart();
+        Long newCartId = cartIdGenerator.incrementAndGet();
+        cart.setCartId(newCartId);
+        return cartRepository.save(cart).getCartId();
     }
 
-    public void clearCart(){
-
+    public void clearCart(Long id) {
+        Cart cart = getCart(id);
+        cart.getBooks().clear();
+        cartRepository.deleteById(id);
     }
 
 

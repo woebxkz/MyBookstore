@@ -47,7 +47,6 @@ public class CartItemService {
         cart.addToCart(cartItem);
         cartItemRepository.save(cartItem);
         cartRepository.save(cart);
-
     }
 
 
