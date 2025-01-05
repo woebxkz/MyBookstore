@@ -1,8 +1,6 @@
 package shop.mybookstore.service;
 
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.entity.Cart;
@@ -18,15 +16,6 @@ public class CartItemService {
     CartItemRepository cartItemRepository;
     CartRepository cartRepository;
     BookRepository bookRepository;
-
-    @Autowired
-    public CartItemService(CartItemRepository cartItemRepository,
-                           CartRepository cartRepository,
-                           BookRepository bookRepository) {
-        this.cartItemRepository = cartItemRepository;
-        this.cartRepository = cartRepository;
-        this.bookRepository = bookRepository;
-    }
 
     public void addBookToCart(Long cartId, Long bookId, int quantity) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
@@ -48,6 +37,10 @@ public class CartItemService {
         cartItemRepository.save(cartItem);
         cartRepository.save(cart);
     }
+
+    public void removeBookFromCart() {}
+
+    public void updateBookQuantity() {}
 
 
 }

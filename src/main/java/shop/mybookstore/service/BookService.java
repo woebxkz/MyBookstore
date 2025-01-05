@@ -1,11 +1,13 @@
 package shop.mybookstore.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.model.BookModel;
-import shop.mybookstore.model.response.BookResponse;
+import shop.mybookstore.response.ApiResponse;
+import shop.mybookstore.response.BookResponse;
 import shop.mybookstore.repository.BookRepository;
 
 import java.util.Collections;
@@ -13,13 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    BookRepository bookRepository;
-
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private final BookRepository bookRepository;
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
@@ -68,27 +67,37 @@ public class BookService {
         bookRepository.delete(book);
     }
 
-    public BookResponse createBook(BookModel bookModel) {
+    public ApiResponse addBook(BookModel bookModel) {
         Book book = new Book();
+        book.setId(book.getId());
         book.setTitle(bookModel.getTitle());
         book.setAuthor(bookModel.getAuthor());
-        book.setPrice(bookModel.getPrice());
-        book.setStock(bookModel.getStock());
         book.setCategory(bookModel.getCategory());
+        book.setPrice(bookModel.getPrice());
         book.setPublishedDate(bookModel.getPublishedDate());
         book.setPublisher(bookModel.getPublisher());
 
         Book savedBook = bookRepository.save(book);
 
-        return new BookResponse(
-                savedBook.getId(),
-                savedBook.getTitle(),
-                savedBook.getCategory(),
-                savedBook.getPrice(),
-                savedBook.getStock(),
-                savedBook.getPublishedDate(),
-                savedBook.getPublisher()
-        );
+        return new ApiResponse("book added", savedBook);
+    }
+
+    public BookModel convertToModel(Book book) {
+        BookModel bookModel = new BookModel();
+        bookModel.setId(book.getId());
+        bookModel.setTitle(book.getTitle());
+        bookModel.setAuthor(book.getAuthor());
+        bookModel.setCategory(book.getCategory());
+        bookModel.setPrice(book.getPrice());
+        bookModel.setStock(book.getStock());
+        bookModel.setPublishedDate(book.getPublishedDate());
+        bookModel.setPublisher(book.getPublisher());
+
+        return bookModel;
+    }
+
+    public List<BookModel> getConvertedBooks(List<Book> books) {
+        return books.stream().map(this::convertToModel).toList();
     }
 
 

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.model.BookModel;
-import shop.mybookstore.model.response.BookResponse;
+import shop.mybookstore.response.BookResponse;
 import shop.mybookstore.response.ApiResponse;
 import shop.mybookstore.service.BookService;
 
@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/books")
@@ -28,8 +27,10 @@ public class BookController {
     }
 
     @GetMapping("/all")
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<BookResponse> getAllBooks() {
+        List <Book> books = bookService.getAllBooks();
+        List <BookModel> convertedBooks = bookService.getConvertedBooks(books);
+        return ResponseEntity.ok(new BookResponse(convertedBooks));
     }
 
     @GetMapping("/search/{id}")
@@ -68,9 +69,9 @@ public class BookController {
         }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<BookResponse> createBook(@RequestBody BookModel bookModel) {
-        BookResponse createdBook = bookService.createBook(bookModel);
-        return status(HttpStatus.CREATED).body(createdBook);
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addBook(@RequestBody BookModel bookModel) {
+        ApiResponse addedBook = bookService.addBook(bookModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Following book successfully created: ", addedBook));
     }
 }
