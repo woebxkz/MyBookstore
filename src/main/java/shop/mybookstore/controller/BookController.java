@@ -1,35 +1,33 @@
 package shop.mybookstore.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.mybookstore.entity.Book;
+import shop.mybookstore.exception.BookNotFoundException;
 import shop.mybookstore.model.BookModel;
-import shop.mybookstore.response.BookResponse;
 import shop.mybookstore.response.ApiResponse;
+import shop.mybookstore.response.BookResponse;
 import shop.mybookstore.service.BookService;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.FOUND;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/books")
 public class BookController {
 
     BookService bookService;
 
-    @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
-
     @GetMapping("/all")
     public ResponseEntity<BookResponse> getAllBooks() {
-        List <Book> books = bookService.getAllBooks();
-        List <BookModel> convertedBooks = bookService.getConvertedBooks(books);
+        List<Book> books = bookService.getAllBooks();
+        List<BookModel> convertedBooks = bookService.getConvertedBooks(books);
         return ResponseEntity.ok(new BookResponse(convertedBooks));
     }
 
@@ -59,19 +57,30 @@ public class BookController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{bookId}/delete")
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable Long id) {
         try {
             bookService.deleteBook(id);
             return ResponseEntity.status(FOUND).body(new ApiResponse("Book successfully deleted", id));
-        } catch (RuntimeException e) {
+        } catch (BookNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Book not found", id));
         }
     }
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addBook(@RequestBody BookModel bookModel) {
-        ApiResponse addedBook = bookService.addBook(bookModel);
+        Book addedBook = bookService.addBook(bookModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Following book successfully created: ", addedBook));
+    }
+
+    @PutMapping("/{bookId}/update")
+    public ResponseEntity<ApiResponse> updateBook(@RequestBody BookModel bookModel, @PathVariable Long id) {
+        try {
+            bookService.updateBook(bookModel, id);
+            return ResponseEntity.ok(new ApiResponse("Book successfully updated", id));
+        } catch (BookNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Book not found", id));
+        }
+
     }
 }

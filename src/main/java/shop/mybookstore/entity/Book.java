@@ -13,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
@@ -46,4 +45,14 @@ public class Book {
 
     @Column(nullable = false)
     private String publisher;
+
+    public Book(String title, String author, BigDecimal price, String category, LocalDate publishedDate, String publisher){
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.category = category;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
+    }
+
 }

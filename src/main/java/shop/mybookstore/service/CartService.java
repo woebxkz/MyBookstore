@@ -1,5 +1,6 @@
 package shop.mybookstore.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,15 +32,17 @@ public class CartService {
         return cart.getTotalAmount();
     }
 
-    public Long initializenewCart() {
+    public Long initializeNewCart() {
         Cart cart = new Cart();
         Long newCartId = cartIdGenerator.incrementAndGet();
         cart.setCartId(newCartId);
         return cartRepository.save(cart).getCartId();
     }
 
+    @Transactional
     public void clearCart(Long id) {
         Cart cart = getCart(id);
+        cartItemRepository.deleteAllByCartId(id);
         cart.getBooks().clear();
         cartRepository.deleteById(id);
     }

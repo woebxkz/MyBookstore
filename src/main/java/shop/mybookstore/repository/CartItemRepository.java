@@ -7,4 +7,5 @@ import shop.mybookstore.entity.CartItem;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
+    void deleteAllByCartId(Long id);
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import shop.mybookstore.entity.Book;
+import shop.mybookstore.exception.BookNotFoundException;
 import shop.mybookstore.model.BookModel;
 import shop.mybookstore.response.ApiResponse;
 import shop.mybookstore.response.BookResponse;
@@ -67,9 +68,8 @@ public class BookService {
         bookRepository.delete(book);
     }
 
-    public ApiResponse addBook(BookModel bookModel) {
+    public Book addBook(BookModel bookModel) {
         Book book = new Book();
-        book.setId(book.getId());
         book.setTitle(bookModel.getTitle());
         book.setAuthor(bookModel.getAuthor());
         book.setCategory(bookModel.getCategory());
@@ -79,8 +79,28 @@ public class BookService {
 
         Book savedBook = bookRepository.save(book);
 
-        return new ApiResponse("book added", savedBook);
+        return savedBook;
     }
+
+    public Book updateBook(BookModel bookModel, Long bookId){
+        return bookRepository.findById(bookId)
+                .map(existingBook -> updateExistingBook(existingBook, bookModel))
+                .map(bookRepository::save)
+                .orElseThrow(() -> new BookNotFoundException("Book not found"));
+    }
+
+    private Book updateExistingBook(Book existingBook, BookModel bookModel) {
+        existingBook.setTitle(bookModel.getTitle());
+        existingBook.setAuthor(bookModel.getAuthor());
+        existingBook.setCategory(bookModel.getCategory());
+        existingBook.setPrice(bookModel.getPrice());
+        existingBook.setStock(bookModel.getStock());
+        existingBook.setPublishedDate(bookModel.getPublishedDate());
+        existingBook.setPublisher(bookModel.getPublisher());
+
+        return existingBook;
+    }
+
 
     public BookModel convertToModel(Book book) {
         BookModel bookModel = new BookModel();
