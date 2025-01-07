@@ -20,31 +20,31 @@ public class CartService {
     private CartItemRepository cartItemRepository;
     private final AtomicLong cartIdGenerator = new AtomicLong(0);
 
-    public Cart getCart(Long id) {
-        Cart cart = cartRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
+    public Cart getCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
         BigDecimal totalAmount = cart.getTotalAmount();
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }
 
-    public BigDecimal getTotalPrice(Long id) {
-        Cart cart = getCart(id);
+    public BigDecimal getTotalPrice(Long cartId) {
+        Cart cart = getCart(cartId);
         return cart.getTotalAmount();
     }
 
     public Long initializeNewCart() {
         Cart cart = new Cart();
         Long newCartId = cartIdGenerator.incrementAndGet();
-        cart.setCartId(newCartId);
-        return cartRepository.save(cart).getCartId();
+        cart.setId(newCartId);
+        return cartRepository.save(cart).getId();
     }
 
-    @Transactional
-    public void clearCart(Long id) {
-        Cart cart = getCart(id);
-        cartItemRepository.deleteAllByCartId(id);
+
+    public void clearCart(Long cartId) {
+        Cart cart = getCart(cartId);
+        cartItemRepository.deleteAllByCartId(cartId);
         cart.getBooks().clear();
-        cartRepository.deleteById(id);
+        cartRepository.deleteById(cartId);
     }
 
 

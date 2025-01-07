@@ -8,7 +8,6 @@ import shop.mybookstore.entity.Book;
 import shop.mybookstore.exception.BookNotFoundException;
 import shop.mybookstore.model.BookModel;
 import shop.mybookstore.response.ApiResponse;
-import shop.mybookstore.response.BookResponse;
 import shop.mybookstore.service.BookService;
 
 import java.util.List;
@@ -22,36 +21,35 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("/books")
 public class BookController {
 
-    BookService bookService;
+    private final BookService bookService;
 
     @GetMapping("/all")
-    public ResponseEntity<BookResponse> getAllBooks() {
+    public ResponseEntity<ApiResponse> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
-        List<BookModel> convertedBooks = bookService.getConvertedBooks(books);
-        return ResponseEntity.ok(new BookResponse(convertedBooks));
+        return ResponseEntity.ok(new ApiResponse("All books available: ",books));
     }
 
-    @GetMapping("/search/{id}")
+    @GetMapping("/search/by-id/{id}")
     public Optional<Book> getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
-    @GetMapping("/search/{author}")
+    @GetMapping("/search/by-author/{author}")
     public List<Book> getBooksByAuthor(@PathVariable String author) {
         return bookService.getBooksByAuthor(author);
     }
 
-    @GetMapping("/search/{title}")
+    @GetMapping("/search/by-title/{title}")
     public List<Book> getBooksByTitle(@PathVariable String title) {
         return bookService.getBooksByTitle(title);
     }
 
-    @GetMapping("/search/{author}&{title}")
+    @GetMapping("/search/by-author-and-title/{author}&{title}")
     public List<Book> getBooksByAuthorAndTitle(@PathVariable String author, String title) {
         return bookService.getBooksByAuthorAndTitle(author, title);
     }
 
-    @GetMapping("/search/{category}")
+    @GetMapping("/search/by-category/{category}")
     public List<Book> getBooksByCategory(@PathVariable String category) {
         return bookService.getBooksByCategory(category);
     }

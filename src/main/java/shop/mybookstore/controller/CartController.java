@@ -25,11 +25,11 @@ public class CartController {
         return ResponseEntity.ok(new ApiResponse("There are following books in your cart: ", cart));
     }
 
-    public void clearCart() {}
-
-
+    @GetMapping("/{cartId}/totalAmount")
     public ResponseEntity<ApiResponse> getTotalAmount(Long cartId) {
         BigDecimal totalAmount = cartService.getCart(cartId).getTotalAmount();
+        return ResponseEntity.ok(new ApiResponse("Your total amount is: ", totalAmount));
     }
 
+    public void clearCart() {}
 }
