@@ -29,13 +29,13 @@ public class CartController {
         }
     }
 
-    @GetMapping("/total-amount")
+    @GetMapping("/{cartId}/total-amount")
     public ResponseEntity<ApiResponse> getTotalAmount(Long cartId) {
         BigDecimal totalAmount = cartService.getTotalPrice(cartId);
         return ResponseEntity.ok(new ApiResponse("Your total amount is: ", totalAmount));
     }
 
-    @PutMapping("/clear")
+    @PutMapping("/{cartId}/clear-cart")
     public ResponseEntity<ApiResponse> clearCart(Long cartId) {
         cartService.clearCart(cartId);
         return ResponseEntity.ok(new ApiResponse("Cart has been cleared", cartId));
