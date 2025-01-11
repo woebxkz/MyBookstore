@@ -9,7 +9,6 @@ import shop.mybookstore.response.ApiResponse;
 import shop.mybookstore.service.CartService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -21,10 +20,10 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/{cartId}/my-cart")
-    public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
+    public ResponseEntity<ApiResponse> getCart(@PathVariable Long id) {
         try {
-            Cart cart = cartService.getCart(cartId);
-            return ResponseEntity.ok(new ApiResponse("Success", cart));
+            Cart cart = cartService.getCart(id);
+            return ResponseEntity.ok(new ApiResponse("Books in your cart: ", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }

@@ -2,16 +2,12 @@ package shop.mybookstore.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
-import shop.mybookstore.entity.Book;
 import shop.mybookstore.entity.Cart;
 import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

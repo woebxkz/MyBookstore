@@ -55,7 +55,7 @@ public class BookController {
     }
 
 
-    @DeleteMapping("/{bookId}/delete")
+    @DeleteMapping("/book/{bookId}/delete")
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable Long id) {
         try {
             bookService.deleteBook(id);
@@ -65,13 +65,13 @@ public class BookController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/book/add")
     public ResponseEntity<ApiResponse> addBook(@RequestBody BookModel bookModel) {
         Book addedBook = bookService.addBook(bookModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Following book successfully created: ", addedBook));
     }
 
-    @PutMapping("/{bookId}/update")
+    @PutMapping("/book/{bookId}/update")
     public ResponseEntity<ApiResponse> updateBook(@RequestBody BookModel bookModel, @PathVariable Long id) {
         try {
             bookService.updateBook(bookModel, id);
