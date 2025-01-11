@@ -34,7 +34,7 @@ public class CartItemController {
                                                           @RequestParam Integer quantity) {
         try {
             cartItemService.updateBookQuantity(cartId, bookId, quantity);
-            return ResponseEntity.ok(new ApiResponse("Quantity successfully updated", null);
+            return ResponseEntity.ok(new ApiResponse("Quantity successfully updated", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }

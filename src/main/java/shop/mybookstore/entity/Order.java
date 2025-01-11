@@ -1,24 +1,35 @@
 package shop.mybookstore.entity;
 
-/*@Entity
-@Table(name = "orders")*/
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "orders")
 public class Order {
 
-/*    @Id
+    @Id
     @GeneratedValue
+    @Column(name = "order_id")
     private Long orderId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "order_date")
     private LocalDate orderDate;
 
-    @Column(name = "status")
     private String status;
 
     @Column(name = "total_amount")
-    private int totalAmount;*/
+    private BigDecimal totalAmount;
 
 }
