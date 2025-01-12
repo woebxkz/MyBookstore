@@ -36,5 +36,9 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
+    public Cart getCartByUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
+    }
+
 
 }

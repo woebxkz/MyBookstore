@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,5 +32,8 @@ public class Order {
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @Column(name = "order_items")
+    private List<CartItem> orderItems;
 
 }
