@@ -24,7 +24,7 @@ public class CartItemService {
     public Cart addBookToCart(Long cartId, Long bookId, int quantity) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
-        CartItem cartItem = cart.getBooks().stream()
+        CartItem cartItem = cart.getCartItems().stream()
                 .filter(bookItem -> bookItem.getBook().getId().equals(bookId))
                 .findFirst().orElse(new CartItem());
         if (cartItem.getCartItemId() == null) {
@@ -53,7 +53,7 @@ public class CartItemService {
         Cart cart = cartService.getCart(cartId);
         CartItem booktoUpdate = getCartItem(cartId, bookId);
         booktoUpdate.setQuantity(updatedQuantity);
-        BigDecimal totalAmount = cart.getBooks().stream()
+        BigDecimal totalAmount = cart.getCartItems().stream()
                 .map(CartItem::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
@@ -61,7 +61,7 @@ public class CartItemService {
 
     public CartItem getCartItem(Long cartId, Long bookId) {
         Cart cart = cartService.getCart(cartId);
-        return cart.getBooks()
+        return cart.getCartItems()
                 .stream().filter(book -> book.getBook().getId().equals(bookId))
                 .findFirst().orElseThrow(() -> new ResourceNotFoundException("Book not found"));
     }

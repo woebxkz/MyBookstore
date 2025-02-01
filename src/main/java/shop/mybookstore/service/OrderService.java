@@ -13,6 +13,7 @@ import shop.mybookstore.repository.OrderRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +24,14 @@ public class OrderService {
     BookRepository bookRepository;
 
     public void placeOrder(Long userId){
-        Cart cart = cartService.getCartByUserId(userId);
-        Order order = createOrder(cart);
+        Optional<Cart> cart = cartService.getCartByUserId(userId);
+        //Order order = createOrder(cart);
 
 
     }
 
     public List<OrderItem> createOrderItems(Order order, Cart cart) {
-        return cart.getBooks().stream().map(cartItem -> {
+        return cart.getCartItems().stream().map(cartItem -> {
             Book book = cartItem.getBook();
             book.setStock(book.getStock() - cartItem.getQuantity());
             bookRepository.save(book);

@@ -33,7 +33,7 @@ public class Order {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
-    @Column(name = "order_items")
-    private List<CartItem> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems;
 
 }
