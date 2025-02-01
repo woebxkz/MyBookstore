@@ -12,8 +12,8 @@ import shop.mybookstore.repository.OrderRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +23,15 @@ public class OrderService {
     CartService cartService;
     BookRepository bookRepository;
 
-    public void placeOrder(Long userId){
-        Optional<Cart> cart = cartService.getCartByUserId(userId);
-        //Order order = createOrder(cart);
-
-
+    public Order placeOrder(Long userId){
+        Cart cart = cartService.getCartByUserId(userId);
+        Order order = createOrder(cart);
+        List<OrderItem> orderItemList = createOrderItems(order, cart);
+        order.setOrderItems(new HashSet<>(orderItemList));
+        order.setTotalAmount(calculateTotalAmount(orderItemList));
+        Order savedOrder = orderRepository.save(order);
+        cartService.clearCart(cart.getId());
+        return savedOrder;
     }
 
     public List<OrderItem> createOrderItems(Order order, Cart cart) {

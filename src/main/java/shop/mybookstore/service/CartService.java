@@ -8,7 +8,6 @@ import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
-    public Optional<Cart> getCartByUserId(Long userId) {
+    public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
     }
 
