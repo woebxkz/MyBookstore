@@ -1,6 +1,7 @@
 package shop.mybookstore.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -32,4 +34,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
+    public User(String username, String firstName, String lastName, String password, String email, RoleEnum role) {
+    }
 }
