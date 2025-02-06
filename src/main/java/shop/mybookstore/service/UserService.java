@@ -2,8 +2,11 @@ package shop.mybookstore.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import shop.mybookstore.dto.UserDto;
 import shop.mybookstore.entity.RoleEnum;
 import shop.mybookstore.entity.User;
+import shop.mybookstore.exception.AlreadyExistsException;
+import shop.mybookstore.exception.ResourceNotFoundException;
 import shop.mybookstore.repository.UserRepository;
 
 import java.util.List;
@@ -25,15 +28,11 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public User createUser(String username,
-                           String firstName,
-                           String lastName,
-                           String password,
-                           String email,
-                           RoleEnum role) {
-        User user = new User(username, firstName, lastName, password, email, role);
-        return user;
-    }
+    public User createUser(UserDto userDto) {
+        User user = new User(userDto);
+        if (userRepository.existsById(user.getId())) {
+        throw new AlreadyExistsException("User already exists");
+    } else { return userRepository.save(user); }}
 
     public User updatePassword(Long userId, String currentPassword, String newPassword) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -54,7 +53,9 @@ public class UserService {
 
 
     public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        userRepository.findById(userId).ifPresentOrElse(userRepository :: delete, () -> {
+            throw new ResourceNotFoundException("User not found");
+        });
     }
 
 }
