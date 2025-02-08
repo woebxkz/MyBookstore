@@ -46,5 +46,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse("User successfully created", user));
     }
 
+    @PostMapping("/{userId}/update")
+    public ResponseEntity<ApiResponse> updatePassword(@PathVariable Long userId,
+                                                      @RequestBody String currentPassword,
+                                                      @RequestBody String newPassword) {
+        User user = userService.updatePassword(userId, currentPassword, newPassword);
+        return ResponseEntity.ok(new ApiResponse("Password successfully updated", user));
+    }
+
 
 }
