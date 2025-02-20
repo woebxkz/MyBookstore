@@ -15,3 +15,5 @@ INSERT INTO books (title,
                                 ('Six of Crows', 'Leigh Bardugo', 48.99, 45, 'Fantasy', '2015-09-29', 'Macmillan'),
                                 ('Shadow and Bone', 'Leigh Bardugo', 42.99, 40, 'Fantasy', '2012-06-05', 'Macmillan'),
                                 ('Crooked Kingdom', 'Leigh Bardugo', 51.99, 35, 'Fantasy', '2016-09-27', 'Macmillan');
+
+INSERT　INTO users () VALUES ()

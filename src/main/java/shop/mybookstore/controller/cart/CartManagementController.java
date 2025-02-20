@@ -1,4 +1,4 @@
-package shop.mybookstore.controller;
+package shop.mybookstore.controller.cart;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/cart")
-public class CartController {
+public class CartManagementController {
 
     private final CartService cartService;
 
-    @GetMapping("/{cartId}/my-cart")
-    public ResponseEntity<ApiResponse> getCart(@PathVariable Long id) {
+    @GetMapping("/{cartId}")
+    public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
         try {
-            Cart cart = cartService.getCart(id);
+            Cart cart = cartService.getCart(cartId);
             return ResponseEntity.ok(new ApiResponse("Books in your cart: ", cart));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
@@ -35,7 +35,7 @@ public class CartController {
         return ResponseEntity.ok(new ApiResponse("Your total amount is: ", totalAmount));
     }
 
-    @PutMapping("/{cartId}/clear-cart")
+    @PutMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse> clearCart(Long cartId) {
         cartService.clearCart(cartId);
         return ResponseEntity.ok(new ApiResponse("Cart has been cleared", cartId));

@@ -44,7 +44,7 @@ public class UserService {
                 user.setPassword(newPassword);
                 return userRepository.save(user);
             } else {
-                throw new IllegalArgumentException("Current password is incorrect");
+                throw new IllegalArgumentException("New password is the same as old password");
             }
         } else {
                 throw new NoSuchElementException("User not found");

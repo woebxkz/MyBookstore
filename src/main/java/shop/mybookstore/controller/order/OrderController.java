@@ -1,4 +1,4 @@
-package shop.mybookstore.controller;
+package shop.mybookstore.controller.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,34 +18,38 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order")
-    public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId){
+    @PostMapping("/new-order")
+    public ResponseEntity<ApiResponse> createOrder(@PathVariable Long userId){
         try{
             Order order = orderService.placeOrder(userId);
-            return ResponseEntity.ok(new ApiResponse("Order successful!", order));
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Error placing order", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponse("Order successful!", order));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("User not found", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse("Cannot place order", e.getMessage()));
         }
     }
 
-    @GetMapping("/{id}/order")
-    public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long id) {
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
         try {
-            Order order = orderService.getOrder(id);
+            Order order = orderService.getOrder(orderId);
             return ResponseEntity.ok(new ApiResponse("Order found", order));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Order not found", e.getMessage()));
         }
     }
 
-    @GetMapping("/{userId}/order")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId){
         try {
             List<Order> orders = orderService.getUserOrders(userId);
-            return ResponseEntity.ok(new ApiResponse("Orders found", orders));
+            return ResponseEntity.ok(new ApiResponse("User's orders found", orders));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Order not found", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("User not found", e.getMessage()));
         }
     }
 

@@ -1,4 +1,4 @@
-package shop.mybookstore.controller;
+package shop.mybookstore.controller.cartItem;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cart-items")
+@RequestMapping("/cart/{cartId}/books")
 public class CartItemController {
 
-    CartItemService cartItemService;
+    private final CartItemService cartItemService;
 
-    @PostMapping("/book/add")
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse> addBookToCart(@RequestParam(required = false) Long cartId,
                                                      @RequestParam Long bookId,
                                                      @RequestParam Integer quantity) {
@@ -28,7 +28,7 @@ public class CartItemController {
         }
     }
 
-    @PutMapping("/cart/{cartId}/book/{bookId}/update-quantity")
+    @PutMapping("/{bookId}/update-quantity")
     public ResponseEntity<ApiResponse> updateBookQuantity(@PathVariable Long cartId,
                                                           @PathVariable Long bookId,
                                                           @RequestParam Integer quantity) {
@@ -40,7 +40,7 @@ public class CartItemController {
         }
     }
 
-    @DeleteMapping("/cart/{cartId}/book/{bookId}/remove")
+    @DeleteMapping("/{bookId}/remove")
     public ResponseEntity<ApiResponse> removeBookFromCart(@PathVariable Long cartId,
                                                           @PathVariable Long bookId) {
         try {
