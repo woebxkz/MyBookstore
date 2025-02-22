@@ -32,7 +32,7 @@ public class Order {
     private String status;
 
     @Column(name = "total_amount")
-    private BigDecimal totalAmount;
+    private Double totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems;

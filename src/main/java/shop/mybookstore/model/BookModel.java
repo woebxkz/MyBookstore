@@ -1,25 +1,33 @@
 package shop.mybookstore.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class BookModel {
 
     private Long id;
     private String title;
     private String author;
-    private String category;
-    private BigDecimal price;
+    private Double price;
     private Integer stock;
+    private String category;
     private LocalDate publishedDate;
     private String publisher;
 
+
+    public BookModel(String title, String author, Double price, Integer stock, String category, LocalDate publishedDate, String publisher) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
+    }
 }

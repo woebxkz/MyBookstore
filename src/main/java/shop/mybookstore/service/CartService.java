@@ -19,12 +19,12 @@ public class CartService {
     public Cart getCart(Long id) {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found"));
-        BigDecimal totalAmount = cart.getTotalAmount();
+        Double totalAmount = cart.getTotalAmount();
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }
 
-    public BigDecimal getTotalPrice(Long id) {
+    public Double getTotalPrice(Long id) {
         Cart cart = getCart(id);
         return cart.getTotalAmount();
     }

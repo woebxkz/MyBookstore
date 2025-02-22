@@ -8,8 +8,6 @@ import shop.mybookstore.exception.ResourceNotFoundException;
 import shop.mybookstore.response.ApiResponse;
 import shop.mybookstore.service.CartService;
 
-import java.math.BigDecimal;
-
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -31,7 +29,7 @@ public class CartManagementController {
 
     @GetMapping("/{cartId}/total-amount")
     public ResponseEntity<ApiResponse> getTotalAmount(Long cartId) {
-        BigDecimal totalAmount = cartService.getTotalPrice(cartId);
+        Double totalAmount = cartService.getTotalPrice(cartId);
         return ResponseEntity.ok(new ApiResponse("Your total amount is: ", totalAmount));
     }
 

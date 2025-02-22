@@ -20,8 +20,8 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
     private int quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal totalPrice;
+    private Double unitPrice;
+    private Double totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
@@ -33,7 +33,7 @@ public class CartItem {
     private Cart cart;
 
     public void setTotalPrice() {
-        this.totalPrice = this.unitPrice.multiply(new BigDecimal(quantity));
+        this.totalPrice = this.unitPrice*this.quantity;
     }
 
 }

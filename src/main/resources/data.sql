@@ -16,4 +16,12 @@ INSERT INTO books (title,
                                 ('Shadow and Bone', 'Leigh Bardugo', 42.99, 40, 'Fantasy', '2012-06-05', 'Macmillan'),
                                 ('Crooked Kingdom', 'Leigh Bardugo', 51.99, 35, 'Fantasy', '2016-09-27', 'Macmillan');
 
-INSERT　INTO users () VALUES ()
+INSERT INTO users (username,
+                   first_name,
+                   last_name,
+                   password,
+                   email,
+                   role) VALUES
+                            ('jdoe', 'John', 'Doe', 'default_password', 'jdoe@example.com', 'CUSTOMER'),
+                            ('asmith', 'Alice', 'Smith', 'default_password', 'asmith@example.com', 'CUSTOMER'),
+                            ('adminuser', 'Admin', 'User', 'default_password', 'admin@example.com', 'ADMIN');

@@ -31,14 +31,14 @@ public class Cart {
     private Set<CartItem> cartItems = new HashSet<>();
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount = BigDecimal.ZERO;
+    private Double totalAmount = Double.NaN;
 
 
     private void updateTotalAmount() {
         this.totalAmount = cartItems.stream().map(book -> {
-            BigDecimal unitPrice = book.getUnitPrice();
-            return unitPrice.multiply(BigDecimal.valueOf(book.getQuantity()));
-        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+            Double unitPrice = book.getUnitPrice();
+            return unitPrice*book.getQuantity();
+        }).reduce(0.0, Double::sum);
     }
 
     public void addToCart(CartItem book) {

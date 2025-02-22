@@ -67,17 +67,16 @@ public class BookService {
     }
 
     public Book addBook(BookModel bookModel) {
-        Book book = new Book();
-        book.setTitle(bookModel.getTitle());
-        book.setAuthor(bookModel.getAuthor());
-        book.setCategory(bookModel.getCategory());
-        book.setPrice(bookModel.getPrice());
-        book.setPublishedDate(bookModel.getPublishedDate());
-        book.setPublisher(bookModel.getPublisher());
-
-        Book savedBook = bookRepository.save(book);
-
-        return savedBook;
+        Book book = new Book(
+                bookModel.getTitle(),
+                bookModel.getAuthor(),
+                bookModel.getPrice(),
+                bookModel.getStock(),
+                bookModel.getCategory(),
+                bookModel.getPublishedDate(),
+                bookModel.getPublisher()
+        );
+        return bookRepository.save(book);
     }
 
     public Book updateBook(BookModel bookModel, Long bookId){
@@ -98,25 +97,5 @@ public class BookService {
 
         return existingBook;
     }
-
-
-    public BookModel convertToModel(Book book) {
-        BookModel bookModel = new BookModel();
-        bookModel.setId(book.getId());
-        bookModel.setTitle(book.getTitle());
-        bookModel.setAuthor(book.getAuthor());
-        bookModel.setCategory(book.getCategory());
-        bookModel.setPrice(book.getPrice());
-        bookModel.setStock(book.getStock());
-        bookModel.setPublishedDate(book.getPublishedDate());
-        bookModel.setPublisher(book.getPublisher());
-
-        return bookModel;
-    }
-
-    public List<BookModel> getConvertedBooks(List<Book> books) {
-        return books.stream().map(this::convertToModel).toList();
-    }
-
 
 }

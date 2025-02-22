@@ -53,8 +53,8 @@ public class CartItemService {
         Cart cart = cartService.getCart(cartId);
         CartItem booktoUpdate = getCartItem(cartId, bookId);
         booktoUpdate.setQuantity(updatedQuantity);
-        BigDecimal totalAmount = cart.getCartItems().stream()
-                .map(CartItem::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        double totalAmount = cart.getCartItems().stream()
+                .mapToDouble(cartItem -> cartItem.getUnitPrice() * cartItem.getQuantity()).sum();
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }

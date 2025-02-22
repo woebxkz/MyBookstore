@@ -31,10 +31,9 @@ public class Book {
     private String author;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private Double price;
 
     @Column(nullable = false)
-    @JsonIgnore
     private Integer stock;
 
     @Column(nullable = false)
@@ -46,10 +45,20 @@ public class Book {
     @Column(nullable = false)
     private String publisher;
 
-    public Book(String title, String author, BigDecimal price, String category, LocalDate publishedDate, String publisher){
+    public Book(String title, String author, Double price, String category, LocalDate publishedDate, String publisher){
         this.title = title;
         this.author = author;
         this.price = price;
+        this.category = category;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
+    }
+
+    public Book(String title, String author, Double price, Integer stock, String category, LocalDate publishedDate, String publisher){
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.stock = stock;
         this.category = category;
         this.publishedDate = publishedDate;
         this.publisher = publisher;

@@ -55,10 +55,10 @@ public class OrderService {
         return order;
     }
 
-    public BigDecimal calculateTotalAmount(List<OrderItem> orderItemList) {
+    public Double calculateTotalAmount(List<OrderItem> orderItemList) {
         return orderItemList.stream()
-                .map(item -> item.getPrice().multiply(new BigDecimal(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .mapToDouble(item -> item.getPrice()* item.getQuantity())
+                .reduce(0.0, Double::sum);
     }
 
     public Order getOrder(Long orderId){
