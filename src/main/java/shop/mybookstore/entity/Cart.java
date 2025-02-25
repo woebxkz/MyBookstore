@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -23,34 +24,37 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<CartItem> cartItems = new HashSet<>();
 
     @Column(name = "total_amount", nullable = false)
-    private Double totalAmount = Double.NaN;
+    private Double totalAmount = 0.0;
 
 
     private void updateTotalAmount() {
-        this.totalAmount = cartItems.stream().map(book -> {
-            Double unitPrice = book.getUnitPrice();
-            return unitPrice*book.getQuantity();
-        }).reduce(0.0, Double::sum);
+        this.totalAmount = cartItems.stream()
+                .mapToDouble(item -> item.getUnitPrice() * item.getQuantity())
+                .sum();
     }
 
-    public void addToCart(CartItem book) {
-        this.cartItems.add(book);
-        book.setCart(this);
+    public void addToCart(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
         updateTotalAmount();
     }
 
-    public void deleteBook(CartItem book) {
-        this.cartItems.remove(book);
-        book.setCart(null);
+    public void removeCartItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setCart(null);
         updateTotalAmount();
+    }
+
+    public void clearAllItems() {
+        cartItems.forEach(this::removeCartItem);
     }
 
 }

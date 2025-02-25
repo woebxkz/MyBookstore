@@ -58,10 +58,9 @@ public class BookService {
     }
 
 
-    //only for Admin - for later
-    public void deleteBook(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id " + id + "does not exist"));
+    public void deleteBook(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id " + bookId + " does not exist"));
 
         bookRepository.delete(book);
     }

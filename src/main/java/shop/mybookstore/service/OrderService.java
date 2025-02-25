@@ -19,9 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    OrderRepository orderRepository;
-    CartService cartService;
-    BookRepository bookRepository;
+    private final OrderRepository orderRepository;
+    private final CartService cartService;
+    private final BookRepository bookRepository;
 
     public Order placeOrder(Long userId){
         Cart cart = cartService.getCartByUserId(userId);

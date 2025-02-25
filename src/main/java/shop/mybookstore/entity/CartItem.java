@@ -32,6 +32,14 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    public CartItem(int quantity, Double unitPrice, Double totalPrice, Book book, Cart cart) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.book = book;
+        this.cart = cart;
+    }
+
     public void setTotalPrice() {
         this.totalPrice = this.unitPrice*this.quantity;
     }

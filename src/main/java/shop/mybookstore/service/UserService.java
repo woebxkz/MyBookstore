@@ -3,7 +3,6 @@ package shop.mybookstore.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.mybookstore.dto.UserDto;
-import shop.mybookstore.entity.RoleEnum;
 import shop.mybookstore.entity.User;
 import shop.mybookstore.exception.AlreadyExistsException;
 import shop.mybookstore.exception.ResourceNotFoundException;
@@ -12,13 +11,12 @@ import shop.mybookstore.repository.UserRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

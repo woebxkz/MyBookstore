@@ -10,16 +10,15 @@ import shop.mybookstore.repository.BookRepository;
 import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
 public class CartItemService {
 
-    CartItemRepository cartItemRepository;
-    CartRepository cartRepository;
-    BookRepository bookRepository;
-    CartService cartService;
+    private final CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
+    private final BookRepository bookRepository;
+    private final CartService cartService;
 
     public Cart addBookToCart(Long cartId, Long bookId, int quantity) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
@@ -45,7 +44,7 @@ public class CartItemService {
     public void removeBookFromCart(Long cartId, Long bookId) {
         Cart cart = cartService.getCart(cartId);
         CartItem bookToRemove = getCartItem(cartId, bookId);
-        cart.deleteBook(bookToRemove);
+        cart.removeCartItem(bookToRemove);
         cartRepository.save(cart);
     }
 
