@@ -5,16 +5,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 import shop.mybookstore.entity.*;
-import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,8 +47,18 @@ public class CartServiceTest {
         cartService.clearCart(cartId);
 
         assertTrue(cart.getCartItems().isEmpty());
-        verify(cartRepository).deleteById(cartId);
     }
+
+    @Test
+    void testClearCart_CartNotFound() {
+
+        Long cartId = 1L;
+
+        when(cartRepository.findById(cartId)).thenReturn(Optional.empty());
+
+        assertThrows(ResponseStatusException.class, () -> cartService.clearCart(cartId));
+    }
+
 
 
 }

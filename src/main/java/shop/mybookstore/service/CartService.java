@@ -2,7 +2,9 @@ package shop.mybookstore.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import shop.mybookstore.entity.Cart;
 import shop.mybookstore.entity.CartItem;
 import shop.mybookstore.repository.CartItemRepository;
@@ -18,14 +20,14 @@ import java.util.Set;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
 
     public Cart getCart(Long id) {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found"));
         Double totalAmount = cart.getTotalAmount();
         cart.setTotalAmount(totalAmount);
-        return cartRepository.save(cart);
+        cartRepository.save(cart);
+        return cart;
     }
 
     public Double getTotalPrice(Long id) {
@@ -34,21 +36,9 @@ public class CartService {
     }
 
     public void clearCart(Long cartId) {
-        Cart cart = getCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
         cart.clearAllItems();
-        cartRepository.save(cart);
-    }
-
-    public Set<CartItem> deleteItemFromCart(Long cartId, Long cartItemId) {
-        Cart cart = getCart(cartId);
-        CartItem itemToRemove = cart.getCartItems().stream()
-                .filter(item -> item.getCartItemId().equals(cartItemId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("CartItem not found"));
-
-        cart.removeCartItem(itemToRemove);
-        cartRepository.save(cart);
-        return cart.getCartItems();
     }
 
     public Cart getCartByUserId(Long userId) {

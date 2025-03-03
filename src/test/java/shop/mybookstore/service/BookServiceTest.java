@@ -100,7 +100,5 @@ class BookServiceTest {
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
         assertThrows(ResponseStatusException.class, () -> bookService.deleteBook(bookId));
-
-
     }
 }

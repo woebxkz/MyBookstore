@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,7 +55,11 @@ public class Cart {
     }
 
     public void clearAllItems() {
-        cartItems.forEach(this::removeCartItem);
+        Iterator<CartItem> it = cartItems.iterator();
+        while (it.hasNext()) {
+            it.next();
+            it.remove();
+        }
     }
 
 }

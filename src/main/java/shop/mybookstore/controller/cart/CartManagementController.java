@@ -12,12 +12,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/cart/{cartId}")
 public class CartManagementController {
 
     private final CartService cartService;
 
-    @GetMapping("/{cartId}")
+    @GetMapping()
     public ResponseEntity<ApiResponse> getCart(@PathVariable Long cartId) {
         try {
             Cart cart = cartService.getCart(cartId);
@@ -27,16 +27,15 @@ public class CartManagementController {
         }
     }
 
-    @GetMapping("/{cartId}/total-amount")
+    @GetMapping("/total-amount")
     public ResponseEntity<ApiResponse> getTotalAmount(Long cartId) {
         Double totalAmount = cartService.getTotalPrice(cartId);
         return ResponseEntity.ok(new ApiResponse("Your total amount is: ", totalAmount));
     }
 
-    @PutMapping("/{cartId}/clear")
+    @PutMapping("/clear")
     public ResponseEntity<ApiResponse> clearCart(Long cartId) {
         cartService.clearCart(cartId);
         return ResponseEntity.ok(new ApiResponse("Cart has been cleared", cartId));
     }
-
 }
