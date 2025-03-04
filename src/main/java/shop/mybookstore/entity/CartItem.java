@@ -23,25 +23,25 @@ public class CartItem {
     private Double unitPrice;
     private Double totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    public CartItem(int quantity, Double unitPrice, Double totalPrice, Book book, Cart cart) {
+    public CartItem(int quantity, Double unitPrice, Book book, Cart cart) {
         this.quantity = quantity;
         this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
+        this.totalPrice = quantity*unitPrice;
         this.book = book;
         this.cart = cart;
     }
 
     public void setTotalPrice() {
-        this.totalPrice = this.unitPrice*this.quantity;
+        this.totalPrice = (this.unitPrice != null ? this.unitPrice : 0.0) * this.quantity;
     }
 
 }

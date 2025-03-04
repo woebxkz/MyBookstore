@@ -36,16 +36,17 @@ public class Cart {
     private Double totalAmount = 0.0;
 
 
-    private void updateTotalAmount() {
-        this.totalAmount = cartItems.stream()
+    private Double updateTotalAmount() {
+        return this.totalAmount = cartItems.stream()
                 .mapToDouble(item -> item.getUnitPrice() * item.getQuantity())
                 .sum();
     }
 
-    public void addToCart(CartItem cartItem) {
+    public Cart addToCart(CartItem cartItem) {
         cartItems.add(cartItem);
         cartItem.setCart(this);
         updateTotalAmount();
+        return this;
     }
 
     public void removeCartItem(CartItem cartItem) {

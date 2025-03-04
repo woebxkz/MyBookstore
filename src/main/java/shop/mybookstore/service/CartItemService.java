@@ -20,46 +20,61 @@ public class CartItemService {
     private final BookRepository bookRepository;
     private final CartService cartService;
 
-    public Cart addBookToCart(Long cartId, Long bookId, int quantity) {
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
-        CartItem cartItem = cart.getCartItems().stream()
-                .filter(bookItem -> bookItem.getBook().getId().equals(bookId))
-                .findFirst().orElse(new CartItem());
-        if (cartItem.getCartItemId() == null) {
-            cartItem.setCart(cart);
-            cartItem.setBook(book);
-            cartItem.setQuantity(quantity);
-            cartItem.setUnitPrice(book.getPrice());
-        } else {
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+    public Cart addNewBookToCart(Long cartId, Long bookId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        if (book.getPrice() == null) {
+            throw new RuntimeException("Book price is not set");
         }
 
-        cartItem.setTotalPrice();
-        cart.addToCart(cartItem);
-        cartItemRepository.save(cartItem);
-        return cartRepository.save(cart);
+        boolean bookExists = cart.getCartItems().stream()
+                .anyMatch(item -> bookId.equals(item.getBook().getId()));
+
+        if (!bookExists) {
+            CartItem newItem = new CartItem(1, book.getPrice(), book, cart);
+            cart.addToCart(newItem);
+            cartItemRepository.save(newItem);
+            cartRepository.save(cart);
+        }
+
+        return cart;
     }
 
-    public void removeBookFromCart(Long cartId, Long bookId) {
-        Cart cart = cartService.getCart(cartId);
+
+    public Cart removeBookFromCart(Long cartId, Long bookId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
         CartItem bookToRemove = getCartItem(cartId, bookId);
         cart.removeCartItem(bookToRemove);
         cartRepository.save(cart);
+        return cart;
     }
 
     public Cart updateBookQuantity(Long cartId, Long bookId, int updatedQuantity) {
-        Cart cart = cartService.getCart(cartId);
-        CartItem booktoUpdate = getCartItem(cartId, bookId);
-        booktoUpdate.setQuantity(updatedQuantity);
-        double totalAmount = cart.getCartItems().stream()
-                .mapToDouble(cartItem -> cartItem.getUnitPrice() * cartItem.getQuantity()).sum();
-        cart.setTotalAmount(totalAmount);
-        return cartRepository.save(cart);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        CartItem cartItem = cart.getCartItems().stream()
+                .filter(item -> bookId.equals(item.getBook().getId()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Book not found in cart"));
+
+        cartItem.setQuantity(updatedQuantity);
+        cartItem.setTotalPrice();
+
+        cartItemRepository.save(cartItem);
+        cartRepository.save(cart);
+
+        return cart;
     }
 
+
     public CartItem getCartItem(Long cartId, Long bookId) {
-        Cart cart = cartService.getCart(cartId);
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
         return cart.getCartItems()
                 .stream().filter(book -> book.getBook().getId().equals(bookId))
                 .findFirst().orElseThrow(() -> new ResourceNotFoundException("Book not found"));

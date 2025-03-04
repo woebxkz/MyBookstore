@@ -21,7 +21,7 @@ public class CartItemController {
                                                      @RequestParam Long bookId,
                                                      @RequestParam Integer quantity) {
         try {
-        cartItemService.addBookToCart(cartId, bookId, quantity);
+        cartItemService.addNewBookToCart(cartId, bookId);
         return ResponseEntity.ok(new ApiResponse("Book added to cart", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
