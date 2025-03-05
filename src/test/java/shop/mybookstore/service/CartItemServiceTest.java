@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import shop.mybookstore.IdConverter;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.entity.Cart;
 import shop.mybookstore.entity.CartItem;
@@ -14,6 +15,7 @@ import shop.mybookstore.repository.CartItemRepository;
 import shop.mybookstore.repository.CartRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,8 +37,11 @@ public class CartItemServiceTest {
     @Test
     public void addBookToCartTest_Success() {
 
-        Long cartId = 1L;
-        Long bookId = 101L;
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+        Long cartItemId = IdConverter.convertUuidToLong(uuid);
+
         int quantity = 1;
         Double price = 20.99;
         Book book = new Book();
@@ -44,7 +49,6 @@ public class CartItemServiceTest {
         Cart cart = new Cart();
         cart.setId(cartId);
         book.setPrice(price);
-        Long cartItemId = 1L;
         CartItem cartItem = new CartItem();
         cartItem.setCartItemId(cartItemId);
         cartItem.setUnitPrice(price);
@@ -66,9 +70,10 @@ public class CartItemServiceTest {
     @Test
     public void addBookToCartTest_NotFound() {
 
-        Long cartId = 1L;
-        Long bookId = 2L;
-        Long cartItemId = 2L;
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+        Long cartItemId = IdConverter.convertUuidToLong(uuid);
 
         Mockito.lenient().when(cartItemRepository.findById(cartItemId)).thenReturn(Optional.empty());
         Mockito.lenient().when(cartRepository.findById(cartId)).thenReturn(Optional.empty());
@@ -80,12 +85,16 @@ public class CartItemServiceTest {
     @Test
     public void updateBookQuantityTest_Success() {
 
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+
         Book book = new Book();
-        book.setId(1L);
+        book.setId(bookId);
         book.setPrice(20.0);
 
         Cart cart = new Cart();
-        cart.setId(1L);
+        cart.setId(cartId);
 
         CartItem cartItem = new CartItem();
         cartItem.setBook(book);
@@ -110,9 +119,10 @@ public class CartItemServiceTest {
     @Test
     public void updateBookQuantityTest_NotFound() {
 
-        Long cartId = 1L;
-        Long bookId = 2L;
-        Long cartItemId = 2L;
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+        Long cartItemId = IdConverter.convertUuidToLong(uuid);
 
         Mockito.lenient().when(cartItemRepository.findById(cartItemId)).thenReturn(Optional.empty());
         Mockito.lenient().when(cartRepository.findById(cartId)).thenReturn(Optional.empty());
@@ -124,14 +134,16 @@ public class CartItemServiceTest {
     @Test
     public void removeBookFromCart_Success() {
 
-        Long cartId = 1L;
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+        Long cartItemId = IdConverter.convertUuidToLong(uuid);
+
         Cart cart = new Cart();
         cart.setId(cartId);
-        Long bookId = 2L;
         Book book = new Book();
         book.setId(bookId);
         book.setPrice(20.0);
-        Long cartItemId = 2L;
         CartItem cartItem = new CartItem();
         cartItem.setCartItemId(cartItemId);
         cartItem.setCart(cart);
@@ -152,9 +164,10 @@ public class CartItemServiceTest {
     @Test
     public void removeBookFromCart_NotFound() {
 
-        Long cartId = 1L;
-        Long bookId = 2L;
-        Long cartItemId = 2L;
+        UUID uuid = UUID.randomUUID();
+        Long cartId = IdConverter.convertUuidToLong(uuid);
+        Long bookId = IdConverter.convertUuidToLong(uuid);
+        Long cartItemId = IdConverter.convertUuidToLong(uuid);
 
         Mockito.lenient().when(cartItemRepository.findById(cartItemId)).thenReturn(Optional.empty());
         Mockito.lenient().when(cartRepository.findById(cartId)).thenReturn(Optional.empty());

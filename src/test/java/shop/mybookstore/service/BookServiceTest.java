@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
+import shop.mybookstore.IdConverter;
 import shop.mybookstore.entity.Book;
 import shop.mybookstore.exception.BookNotFoundException;
 import shop.mybookstore.model.BookModel;
@@ -15,6 +16,7 @@ import shop.mybookstore.repository.BookRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +50,8 @@ class BookServiceTest {
     @Test
     void testUpdateBook_Success() {
 
-        Long bookId = 1L;
+        UUID uuid = UUID.randomUUID();
+        Long bookId = IdConverter.convertUuidToLong(uuid);
         BookModel bookModel = new BookModel("Updated Title", "Updated Author", 35.99, 10, "Updated Category", LocalDate.of(2021, 1, 1), "Updated Publisher");
         Book existingBook = new Book("Original Title", "Original Author", 29.99, 5, "Original Category", LocalDate.of(2000, 12, 12), "Original Publisher");
         Book updatedBook = new Book("Updated Title", "Updated Author", 35.99, 10, "Updated Category", LocalDate.of(2021, 1, 1), "Updated Publisher");
@@ -68,7 +71,8 @@ class BookServiceTest {
     @Test
     void testUpdateBook_NotFound() {
 
-        Long bookId = 1L;
+        UUID uuid = UUID.randomUUID();
+        Long bookId = IdConverter.convertUuidToLong(uuid);
         BookModel bookModel = new BookModel("Updated Title", "Updated Author", 35.99, 10, "Updated Category", LocalDate.of(2021, 1, 1), "Updated Publisher");
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
@@ -80,7 +84,8 @@ class BookServiceTest {
     @Test
     void testDeleteBook_Success() {
 
-        Long bookId = 2L;
+        UUID uuid = UUID.randomUUID();
+        Long bookId = IdConverter.convertUuidToLong(uuid);
         Book bookToDelete = new Book("Title", "Author", 29.99, 5, "Category", LocalDate.of(2000, 12, 12), "Publisher");
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.of(bookToDelete));
@@ -95,7 +100,8 @@ class BookServiceTest {
     @Test
     void testDeleteBook_NotFound() {
 
-        Long bookId = 2L;
+        UUID uuid = UUID.randomUUID();
+        Long bookId = IdConverter.convertUuidToLong(uuid);
 
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
