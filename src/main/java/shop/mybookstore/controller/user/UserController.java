@@ -50,7 +50,7 @@ public class UserController {
     public ResponseEntity<ApiResponse> changePassword(@PathVariable Long userId,
                                                       @RequestBody PasswordChangeRequest request){
         try {
-            User user = userService.updatePassword(userId, request.getCurrentPassword(), request.getNewPassword());
+            User user = userService.updatePassword(userId, request.getNewPassword());
             return ResponseEntity.ok(new ApiResponse("Password successfully changed", user));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("User not found", e.getMessage()));
