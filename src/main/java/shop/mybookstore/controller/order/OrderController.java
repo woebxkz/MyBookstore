@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.mybookstore.entity.Order;
+import shop.mybookstore.entity.User;
 import shop.mybookstore.exception.ResourceNotFoundException;
 import shop.mybookstore.response.ApiResponse;
 import shop.mybookstore.service.OrderService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class OrderController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId){
         try {
-            List<Order> orders = orderService.getUserOrders(userId);
+            Set<Order> orders = orderService.getUserOrders(userId);
             return ResponseEntity.ok(new ApiResponse("User's orders found", orders));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("User not found", e.getMessage()));

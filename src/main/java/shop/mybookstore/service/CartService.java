@@ -41,7 +41,7 @@ public class CartService {
         cart.clearAllItems();
     }
 
-    public Cart getCartByUserId(Long userId) {
+    public Optional<Cart> getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
     }
 

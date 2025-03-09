@@ -11,6 +11,7 @@ import shop.mybookstore.repository.UserRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,33 +28,48 @@ public class UserService {
     }
 
     public User createUser(UserDto userDto) {
-        User user = new User(userDto);
-        if (userRepository.existsById(user.getId())) {
-        throw new AlreadyExistsException("User already exists");
-    } else { return userRepository.save(user); }}
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setRole(userDto.getRole());
 
-    public User updatePassword(Long userId, String currentPassword, String newPassword) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new AlreadyExistsException("User already exists");
+        }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new AlreadyExistsException("User already exists");
+        }
+
+            userRepository.save(user);
+            return user;
+    }
+
+    public User updatePassword(Long userId, String newPassword) {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
-            if (user.getPassword().equals(currentPassword)) {
-                user.setPassword(newPassword);
-                return userRepository.save(user);
-            } else {
-                throw new IllegalArgumentException("New password is the same as old password");
+            if (user.getPassword().equals(newPassword)) {
+                throw new IllegalArgumentException("New password cannot be the same as old password");
             }
+
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return user;
         } else {
-                throw new NoSuchElementException("User not found");
-            }
+            throw new ResourceNotFoundException("User not found");
         }
+    }
 
 
     public void deleteUser(Long userId) {
-        userRepository.findById(userId).ifPresentOrElse(userRepository :: delete, () -> {
-            throw new ResourceNotFoundException("User not found");
-        });
+        userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        userRepository.deleteById(userId);
     }
 
 }
