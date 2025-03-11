@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import shop.mybookstore.IdConverter;
 import shop.mybookstore.dto.UserDto;
 import shop.mybookstore.entity.RoleEnum;
@@ -73,15 +74,16 @@ public class UserServiceTest {
         Long userId = IdConverter.convertUuidToLong(uuid);
         User user = new User();
         user.setId(userId);
-        String currentPassword = "password";
+        String currentPassword = "password123";
         user.setPassword(currentPassword);
-        String newPassword = "new_password";
+        String newPassword = "newPassword123";
 
         Mockito.lenient().when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         userService.updatePassword(userId, newPassword);
 
-        assertEquals("new_password", user.getPassword());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        assertTrue(passwordEncoder.matches("newPassword123", user.getPassword()));
 
     }
 
