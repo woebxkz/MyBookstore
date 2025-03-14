@@ -24,7 +24,8 @@ MyBoostore is developed using the following technologies:
 ![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5)
 ![Mockito](https://img.shields.io/badge/Mockito-8BC34A?style=for-the-badge)
 
+## 💻 Bookstore Logic
+![Bookstore Logic (2)](https://github.com/user-attachments/assets/80376fbc-472f-4b22-aeaf-3aaefaa2a050)
 
 ## ⚙️ Database
-
 ![Database drawio (4)](https://github.com/user-attachments/assets/fdbf600a-98a7-4d64-941b-3aeeedb47103)
